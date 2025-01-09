@@ -1,12 +1,12 @@
 # spring-cloud-k8s-bug
 
-## To locally build the docker image, go to pom.xml and set  `false` in `publish` xml tag
+## To locally build the docker image, go to pom.xml and set  `false` for `publish` xml tag
 
 ```ssh
 mvn -Pnative spring-boot:build-image -Dmaven.test.skip=true 
 ```
 
-## To push to docker registry 
+## To push it to a docker registry 
 
 ```ssh
 mvn -Pnative spring-boot:build-image -Dmaven.test.skip=true -Ddocker.publishRegistry.token=xx
@@ -25,8 +25,8 @@ microk8s kubectl create namespace example
  microk8s kubectl apply -f k8s.yaml -n example
 ```
 
-### check the application status
+### check the application logs
 ```ssh
-kubectl logs <POD> -n example
+ microk8s kubectl logs <POD> -n example
 ```
 
