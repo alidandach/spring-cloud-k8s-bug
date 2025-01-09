@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-cloud-k8s-bug
+  labels:
+    app: spring-cloud-k8s-bug
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-cloud-k8s-bug
+  template:
+    metadata:
+      labels:
+        app: spring-cloud-k8s-bug
+    spec:
+      containers:
+        - name: spring-cloud-k8s-bug
+          image: ghcr.io/alidandach/spring-cloud-k8s-bug:1.0
+          env:
+            - name: SPRING_CLOUD_BOOTSTRAP_ENABLED
+              value: "true"
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>service</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<!--project configuration-->
+		<java.version>21</java.version>
+
+		<!-- dependencies -->
+		<apache-httpclient5.version>5.4.1</apache-httpclient5.version>
+		<spring-cloud-kubernetes-fabric8.version>3.2.0</spring-cloud-kubernetes-fabric8.version>
+		<otlp-jdbc>2.11.0-alpha</otlp-jdbc>
+		<otlp.version>2.11.0</otlp.version>
+
+		<!--dependency management-->
+		<opentelemetry-bom.version>1.45.0</opentelemetry-bom.version>
+
+		<!--plugins-->
+		<gitlab-codeclimate-maven.version>1.1.0</gitlab-codeclimate-maven.version>
+		<jacoco-plugin.version>0.8.12</jacoco-plugin.version>
+		<maven-compiler.version>3.13.0</maven-compiler.version>
+		<maven-checkstyle.version>3.3.1</maven-checkstyle.version>
+		<maven-git-changelog-plugin.version>2.2.2</maven-git-changelog-plugin.version>
+		<spring-javaformat-checkstyle.version>0.0.40</spring-javaformat-checkstyle.version>
+	</properties>
+
+	<dependencies>
+		<!--spring cloud kubernetes fabric8-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-fabric8</artifactId>
+			<version>${spring-cloud-kubernetes-fabric8.version}</version>
+		</dependency>
+
+		<!--spring cloud kubernetes client-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-client</artifactId>
+			<version>${spring-cloud-kubernetes-fabric8.version}</version>
+		</dependency>
+
+		<!--spring cloud kubernetes config-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-fabric8-config</artifactId>
+			<version>${spring-cloud-kubernetes-fabric8.version}</version>
+		</dependency>
+
+		<!--spring cloud kubernetes client config-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-client-config</artifactId>
+			<version>${spring-cloud-kubernetes-fabric8.version}</version>
+		</dependency>
+
+		<!--spring boot core-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<!--spring boot web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!--spring boot starter jpa-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!--spring boot cache-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+
+		<!--spring boot security-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!--spring boot actuator-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!--spring boot test-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!--metric generator-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
+		<!--tracer generator-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing</artifactId>
+		</dependency>
+
+		<!--opentelemetry instrumentation api-->
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-instrumentation-api</artifactId>
+			<version>${otlp.version}</version>
+		</dependency>
+
+		<!--opentelemetry api-->
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-api</artifactId>
+		</dependency>
+
+		<!--opentelemetry context-->
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-context</artifactId>
+		</dependency>
+
+		<!--opentelemetry sdk-->
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-sdk</artifactId>
+		</dependency>
+
+		<!--jdbc profiling generator-->
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-jdbc</artifactId>
+			<version>${otlp-jdbc}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!--bridge between micrometer and otlp-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-otel</artifactId>
+		</dependency>
+
+		<!--otlp exporter-->
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-otlp</artifactId>
+		</dependency>
+
+		<!--otlp spring boot-->
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-spring-boot-starter</artifactId>
+			<version>${otlp.version}</version>
+		</dependency>
+
+		<!--postgresql-->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!--apache httpclient5-->
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<version>${apache-httpclient5.version}</version>
+		</dependency>
+
+		<!--caffeine cache-->
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+			<version>${caffeine.version}</version>
+		</dependency>
+
+		<!--lombok-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.opentelemetry</groupId>
+				<artifactId>opentelemetry-bom</artifactId>
+				<version>${opentelemetry-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!--spring boot launcher-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<publish>true</publish>
+						<name>ghcr.io/alidandach/spring-cloud-k8s-bug:${project.version}</name>
+						<env>
+							<BP_JVM_VERSION>21</BP_JVM_VERSION>
+							<BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
+							<BPL_JVM_CDS_ENABLED>true</BPL_JVM_CDS_ENABLED>
+							<BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+							<BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
+							<BP_SPRING_CLOUD_BINDINGS_VERSION>2</BP_SPRING_CLOUD_BINDINGS_VERSION>
+							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-H:+AddAllCharsets --enable-https</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+						</env>
+					</image>
+					<docker>
+						<publishRegistry>
+							<username>docker_registry_push_pull</username>
+							<password>${docker.publishRegistry.token}</password>
+						</publishRegistry>
+					</docker>
+				</configuration>
+			</plugin>
+
+			<!--graalvm build tools-->
+			<plugin>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+			</plugin>
+
+			<!--jacoco plugin-->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!--maven changes plugin -->
+			<plugin>
+				<groupId>se.bjurr.gitchangelog</groupId>
+				<artifactId>git-changelog-maven-plugin</artifactId>
+				<version>${maven-git-changelog-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<!--lint tests-->
+		<profile>
+			<id>lintTest</id>
+			<build>
+				<plugins>
+					<!--check style -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>${maven-checkstyle.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>io.spring.javaformat</groupId>
+								<artifactId>spring-javaformat-checkstyle</artifactId>
+								<version>${spring-javaformat-checkstyle.version}</version>
+								<scope>runtime</scope>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+								<configuration>
+									<configLocation>configuration/checkstyle.xml</configLocation>
+									<consoleOutput>true</consoleOutput>
+									<failsOnError>true</failsOnError>
+								</configuration>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!--gitlab code climate maven plugin-->
+					<plugin>
+						<groupId>com.gitlab.smueller18.gitlab</groupId>
+						<artifactId>gitlab-codeclimate-maven-plugin</artifactId>
+						<version>${gitlab-codeclimate-maven.version}</version>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>codeclimate</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!--unit tests-->
+		<profile>
+			<id>unitTests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<includes>
+								<include>**/*Test.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/*IntegrationTest.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!--integration tests-->
+		<profile>
+			<id>integrationTests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<configuration>
+							<includes>
+								<include>**/*IntegrationTest.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/*Test.java</exclude>
+							</excludes>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

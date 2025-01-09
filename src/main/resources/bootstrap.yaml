@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    kubernetes:
+      config:
+        enabled: true
+        name: example-service
+      reload:
+        enabled: true
+        monitoring-config-maps: true
+        monitoring-secrets: true
+        strategy: restart_context
+      secrets:
+        enabled: true
+        enable-api: true
+        labels:
+          db: postgres
+      discovery:
+        enabled: true
+        all-namespaces: true
+    features:
+      enabled: true
